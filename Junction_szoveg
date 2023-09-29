@@ -1,0 +1,33 @@
+## Junction app szovegek
+
+#Punchline
+
+We are looking to fix some common problems whit sensors, and create an IoT system that benefits industrial and civil customers and the manufacturer.  Diagnostic data will be created for the user and manufacturer, such as state of the drill, or state of drill bit.
+
+#Description
+
+## Project FURfang
+
+# Introduction
+
+The drill is one of the oldest tools in the shed. From the earliest bow type drills we come a long way. The battery operated power tools are a great asset for a professional as well as the DIY craftsman. We attempt to make the job a bit easier, and more fun for the user whit some clever engineering. And if we are at it, we would like to propose some advanced management and maintenance tools whit the use of IoT tech, witch can appreciated by the customer and the manufacturer as well.
+
+# Common use case
+
+Some common problems you might face when using a drill is the perpendicularity of the machine. Whit a gyroscope and an OLED display and some clever processing its easy to calibrate and measure the orientation of the drill, to spare you some headache.  It`s important to make the right sized holes in any work piece. Whit a laser or ultrasonic distance sensor it easy for the user to reach exactly the right depth.  In case of tapping when right depth is reached the motor can automatically revers direction, to make the work process as fast as possible. 
+
+# Industrial use case
+
+For industrial use, the maintenance of tools is at up most importance. Any tool that makes that easier is invaluable.
+Whit the help of the sensors and an IoT capable microcontroller we can send the maintenance data to the customers phone or computer, and the manufacturer. 
+Such data can be obtained whit the measurement of running time, etc. With sensor fusion we can deduct information such as the health of the battery, motor, and drill bit. If concrete data can not be obtained, maintenance suggestions still can be made.   
+
+These information can be used by the manufacturer to improve product and create targeted advertisement options. The company support can be a deciding factor for a company when choosing a tool.  So in addition to the gain of targeted adds, the convenience of the tool can attract additional customers. 
+
+# In conclusion
+
+With the right low cost solutions it can be a small increase in cost, for a large gain in usability. The promotion of maintenance can positively impact the environmentally friendly goals of the world.
+
+# For demonstration
+
+The demo
