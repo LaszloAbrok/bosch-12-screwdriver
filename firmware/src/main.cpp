@@ -80,6 +80,7 @@ float read_HC_SR04(){
 void setup() {
   Serial.begin(115200);
   //setup_HC_SR04();
+  
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;);
@@ -89,7 +90,7 @@ void setup() {
 
   display.setTextSize(2);
   display.setTextColor(WHITE);
-
+  
   
   while (!Serial)
   {
@@ -110,16 +111,19 @@ void loop() {
   Serial.print("Distance (cm): ");
   Serial.println(distance);
 
+  /*
   fsrReading = analogRead(fsrAnalogPin);
   
   Serial.print("Analog reading = ");
   Serial.println(fsrReading);
+  
   
   display.clearDisplay();
   display.setCursor(50, 25);
   // Display distance in cm
   display.print(distance);
   display.display();
+  */
   
   // Display distance in inches
   /*display.print(distanceInch);
@@ -127,18 +131,19 @@ void loop() {
   display.display();
   */
 
-  
+  /*
   if(!LIS){
     Serial.println("LIS3DHTR didn't connect.");
     while (1)
       ;
     return;
   }
+  
 
   Serial.print("x:"); Serial.print(LIS.getAccelerationX()); Serial.print("  ");
   Serial.print("y:"); Serial.print(LIS.getAccelerationY()); Serial.print("  ");
   Serial.print("z:"); Serial.println(LIS.getAccelerationZ());
-  
+  */
   
   delay(500);
 }
