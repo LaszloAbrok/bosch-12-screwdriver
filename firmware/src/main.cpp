@@ -1,33 +1,64 @@
-/*********
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp8266-nodemcu-hc-sr04-ultrasonic-arduino/
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-  
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*********/
-#include <Arduino.h>
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#include "LIS3DHTR.h"
+
+// LIS3DHTR TwoWire object
+LIS3DHTR<TwoWire> LIS; //IIC
+#define WIRE Wire
+
+#define SCREEN_WIDTH 128 // OLED display width, in pixels
+#define SCREEN_HEIGHT 64 // OLED display height, in pixels
+
+// Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 const int trigPin = 12;
 const int echoPin = 15;
 
-//define sound velocity in cm/uS
-#define SOUND_VELOCITY 0.034
+const int fsrAnalogPin = 0;
+int fsrReading;
+int LEDbrightness;
+
+//define sound speed in cm/uS
+#define SOUND_SPEED 0.034
 #define CM_TO_INCH 0.393701
 
 long duration;
-float distanceCm;
-float distanceInch;
+int distanceCm;
+int distanceInch;
 
 void setup() {
-  Serial.begin(115200); // Starts the serial communication
+  Serial.begin(115200);
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
   pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+
+  if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+    Serial.println(F("SSD1306 allocation failed"));
+    for(;;);
+  }
+  delay(500);
+  display.clearDisplay();
+
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+
+  while (!Serial)
+  {
+  };
+  LIS.begin(WIRE,0x19); //IIC init
+  delay(100);
+  LIS.setFullScaleRange(LIS3DHTR_RANGE_2G);
+  LIS.setOutputDataRate(LIS3DHTR_DATARATE_50HZ);
 }
 
-float measure_distance(){
+void loop() {
+  fsrReading = analogRead(fsrAnalogPin);
+  
+  Serial.print("Analog reading = ");
+  Serial.println(fsrReading);
+  
+
   // Clears the trigPin
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
@@ -40,22 +71,39 @@ float measure_distance(){
   duration = pulseIn(echoPin, HIGH);
   
   // Calculate the distance
-  distanceCm = duration * SOUND_VELOCITY/2;
+  distanceCm = duration * SOUND_SPEED/2;
   
   // Convert to inches
   distanceInch = distanceCm * CM_TO_INCH;
-
-  return distanceCm;
-}
-
-void loop() {
-
-  // Prints the distance on the Serial Monitor
   
-  float distance = measure_distance();
+  // Prints the distance in the Serial Monitor
+  
   Serial.print("Distance (cm): ");
-  Serial.println(distance);
+  Serial.println(distanceCm);
+  Serial.print("Distance (inch): ");
+  Serial.println(distanceInch);
   
-  delay(1000);
-}
 
+  display.clearDisplay();
+  display.setCursor(50, 25);
+  // Display distance in cm
+  display.print(distanceCm);
+  
+  // Display distance in inches
+  /*display.print(distanceInch);
+  display.print(" in");*/
+  display.display(); 
+
+  if(!LIS){
+    Serial.println("LIS3DHTR didn't connect.");
+    while (1)
+      ;
+    return;
+  }
+
+  Serial.print("x:"); Serial.print(LIS.getAccelerationX()); Serial.print("  ");
+  Serial.print("y:"); Serial.print(LIS.getAccelerationY()); Serial.print("  ");
+  Serial.print("z:"); Serial.println(LIS.getAccelerationZ());
+
+  delay(500);
+}
