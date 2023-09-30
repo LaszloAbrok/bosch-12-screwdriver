@@ -27,14 +27,5 @@
     // Convert to inches
     distanceInch = distanceCm * cmToInch;
 
-    // Prints the distance in the Serial Monitor
-
-    /*
-    Serial.print("Distance (cm): ");
-    Serial.println(distanceCm);
-    Serial.print("Distance (inch): ");
-    Serial.println(distanceInch);
-    */
-
-  return distanceCm;
+    return distanceCm;
  };
